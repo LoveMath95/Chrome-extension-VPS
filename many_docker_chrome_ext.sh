@@ -53,8 +53,8 @@ while [ "$i" -le $noOfNodes ]; do
           volumes:
             - /root/$CONTAINER_NAME_const/config:/config
           ports:
-            - $(( 3030 + i )):3000
-            - $(( 3031 + i )):3001
+            - $(( 3030 + 2 * (i - 1) )):3000
+            - $(( 3031 + 2 * (i - 1) )):3001
           shm_size: "1gb"
           restart: unless-stopped
       EOF
