@@ -4,12 +4,12 @@ noOfNodes=5
 i=1
 
 while [ "$i" -le $noOfNodes ]; do
-
+      cd $HOME
       # https://github.com/linuxserver/docker-chromium
       
       #tao them nhieu puid de chay nhieu docker
-      PUID_const=$((900 + $i))
-      NEW_USER="user$(($i))"
+      PUID_const=$(( 900 + i ))
+      NEW_USER="user$i"
       
       groupadd -g $PUID_const $NEW_USER
       useradd -u $PUID_const -g $PUID_const $NEW_USER
@@ -53,8 +53,8 @@ while [ "$i" -le $noOfNodes ]; do
           volumes:
             - /root/$CONTAINER_NAME_const/config:/config
           ports:
-            - $((3030 + $i)):3000
-            - $((3031 + $i)):3001
+            - $(( 3030 + i )):3000
+            - $(( 3031 + i )):3001
           shm_size: "1gb"
           restart: unless-stopped
       EOF
@@ -71,6 +71,8 @@ while [ "$i" -le $noOfNodes ]; do
       echo "Running Chromium container..."
       cd $HOME/$NEW_FOLDER
       docker-compose up -d
+
+      i=$(( i + 1 ))
 done
 
 docker system prune -f
